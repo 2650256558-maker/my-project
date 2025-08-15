@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 from torch_geometric.nn import GCNConv,GATConv,SAGEConv
-from ours import decode_GCN
+from ours import decoder
 
 
 def noramlize(A: torch.Tensor):
@@ -202,7 +202,7 @@ class MFSGCN(nn.Module):
 
         # Softmax layer
         self.Softmax_linear = nn.Sequential(nn.Linear(128, self.class_count))
-        self.decode = decode_GCN(input_dim = 64, output_dim = 8, dropout = 0.1,alpla = 0.1,globel=True) #input_dim=64
+        self.decode = decoder(input_dim = 64, output_dim = 8, dropout = 0.1,alpla = 0.1,globel=True) #input_dim=64
 
 
 
@@ -242,4 +242,5 @@ class MFSGCN(nn.Module):
         Y = torch.cat([GCN_result, CNN_result], dim=-1)
         Y = self.Softmax_linear(Y)
         Y = F.softmax(Y, -1)
+
         return Y
