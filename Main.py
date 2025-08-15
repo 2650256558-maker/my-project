@@ -13,7 +13,7 @@ import MFSGCN
 from ttt import ratio
 import ours
 from MFSGCN import MFSGCN
-from ours import dense_to_sparse_coo,process_sparse_A,pltgraph
+from ours import sparse_A_preprocessing,pltgraph
 from thop import profile, clever_format
 import torchsummary
 
@@ -332,7 +332,7 @@ for (FLAG, curr_train_ratio,Scale) in [(1,0.01,100)]:
         net_input=torch.from_numpy(net_input.astype(np.float32)).to(device)
 
         ##############################################################################################################
-        AX = process_sparse_A(net_input, device, row=False, col=False, combin=True, FLAG=FLAG)
+        AX = sparse_A_preprocessing(net_input, device, row=False, col=False, combin=True, FLAG=FLAG)
         if dataset_name == "indian_":
             net = MFSGCN(height, width, bands, class_count, Q=Q, A=A, AX=AX)
         else:
@@ -546,3 +546,4 @@ for (FLAG, curr_train_ratio,Scale) in [(1,0.01,100)]:
     
     
     
+
