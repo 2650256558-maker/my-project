@@ -393,7 +393,7 @@ def dense_to_sparse_coo(dense_adj, num_nodes=None, edge_values=None, device='cud
 
 
 
-class decode_GCN(nn.Module):
+class decoder(nn.Module):
     def __init__(self, input_dim, output_dim, dropout,alpla,globel=True):
         super(decode_GCN, self).__init__()
         self.alpla = alpla
@@ -481,6 +481,7 @@ def pltgraph(gt,output,name,dataset_name,truegarph=True):
     plt.savefig(
         os.path.join(output_dir, name + '.png'),
         bbox_inches='tight', dpi=300)
+
 
 
 
