@@ -211,7 +211,7 @@ def combine(row_AX, col_AX, device):
 
 
 
-def process_sparse_A(net_input, device,row=False,col=False,combin=True,FLAG=-1):
+def sparse_A_preprocessing(net_input, device,row=False,col=False,combin=True,FLAG=-1):
     row_num_subgraphs,row_top_k,row_cross_subgraph_k,row_k_cos=row_hyp(FLAG)
     col_num_subgraphs,col_top_k,col_cross_subgraph_k,col_k_cos=col_hyp(FLAG)
 
@@ -481,5 +481,6 @@ def pltgraph(gt,output,name,dataset_name,truegarph=True):
     plt.savefig(
         os.path.join(output_dir, name + '.png'),
         bbox_inches='tight', dpi=300)
+
 
 
