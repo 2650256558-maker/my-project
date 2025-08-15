@@ -21,7 +21,7 @@ fix_seed(42)
 
 
 @torch.no_grad()
-def getA(net_input, device, num_subgraphs=0, top_k=0,cross_subgraph_k=0,k_cos=0,row=True):
+def retrieveA(net_input, device, num_subgraphs=0, top_k=0,cross_subgraph_k=0,k_cos=0,row=True):
     height, width, _ = net_input.shape
 
     if row:
@@ -215,8 +215,8 @@ def process_sparse_A(net_input, device,row=False,col=False,combin=True,FLAG=-1):
     row_num_subgraphs,row_top_k,row_cross_subgraph_k,row_k_cos=row_hyp(FLAG)
     col_num_subgraphs,col_top_k,col_cross_subgraph_k,col_k_cos=col_hyp(FLAG)
 
-    row_AX= getA(net_input, device, num_subgraphs=row_num_subgraphs, top_k=row_top_k, cross_subgraph_k=row_cross_subgraph_k, k_cos=row_k_cos,row=True)
-    col_AX = getA(net_input, device, num_subgraphs=col_num_subgraphs, top_k=col_top_k, cross_subgraph_k=col_cross_subgraph_k,k_cos=col_k_cos, row=False)
+    row_AX= retrieveA(net_input, device, num_subgraphs=row_num_subgraphs, top_k=row_top_k, cross_subgraph_k=row_cross_subgraph_k, k_cos=row_k_cos,row=True)
+    col_AX = retrieveA(net_input, device, num_subgraphs=col_num_subgraphs, top_k=col_top_k, cross_subgraph_k=col_cross_subgraph_k,k_cos=col_k_cos, row=False)
     if row_AX.layout == torch.sparse_csr:
         row_AX = row_AX.to_sparse_coo()
         col_AX = col_AX.to_sparse_coo()
@@ -481,4 +481,5 @@ def pltgraph(gt,output,name,dataset_name,truegarph=True):
     plt.savefig(
         os.path.join(output_dir, name + '.png'),
         bbox_inches='tight', dpi=300)
+
 
